@@ -6,17 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // swing libs
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+
+import java.io.File;
+import java.util.List;
 
 
 public class Main {
+
+    JFrame frame;
 
     // text fields
     private JTextField firstTextField;
@@ -30,14 +28,23 @@ public class Main {
     // buttons
     private JButton startButton;
     private JButton clearButton;
+    private JButton chooseFileButton;
+
+    //fileChooser
+    private JFileChooser fileChooser;
+    private File file;
+    private JLabel choosedFileLabel;
 
     // main app panel creating
     public Main() {
-        JFrame frame = new JFrame("Licznik wyrazów");
+        frame = new JFrame("Licznik wyrazów");
+        fileChooser = new JFileChooser();
+        javax.swing.filechooser.FileNameExtensionFilter filter = new javax.swing.filechooser.FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        fileChooser.setFileFilter(filter);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(windowMaker(), BorderLayout.NORTH);
         frame.add(textAreaMaker(), BorderLayout.CENTER);
-        frame.add(buttonMaker(), BorderLayout.SOUTH);
+        frame.add(buttonsMaker(), BorderLayout.SOUTH);
         frame.setSize(500, 500);
         frame.setVisible(true);
     }
@@ -52,6 +59,7 @@ public class Main {
         fourTextField = new JTextField(10);
         fifthTextField = new JTextField(10);
         sixTextField = new JTextField(10);
+        choosedFileLabel = new JLabel("");
 
         window.add(new JLabel("Podaj slowo:"));
         window.add(firstTextField);
@@ -71,6 +79,8 @@ public class Main {
         window.add(new JLabel("Podaj slowo:"));
         window.add(sixTextField);
 
+        window.add(choosedFileLabel);
+
         return window;
     }
 
@@ -83,43 +93,52 @@ public class Main {
         return scrollPane;
     }
 
-    private JPanel buttonMaker() {
+    private JPanel buttonsMaker() {
         JPanel panel = new JPanel();
         startButton = new JButton("Startuj");
         clearButton = new JButton("Clearuj");
+        chooseFileButton = new JButton("Wybierz plik");
         panel.add(startButton);
         panel.add(clearButton);
+        panel.add(chooseFileButton);
         startButton.addActionListener(new StartListener());
         clearButton.addActionListener(new ListenerCleaner());
+        chooseFileButton.addActionListener((new ListenerChooseFile()));
         return panel;
     }
 
     public class StartListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if(file==null) {
+                JOptionPane.showMessageDialog(frame, "Najpierw wybierz plik!", "Brak pliku", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             if (!firstTextField.getText().equals("")) {
-                new Thread(new Counter(firstTextField.getText(), textArea)).start();
+                new Thread(new Counter(firstTextField.getText(), textArea,file)).start();
             }
 
             if (!secondTextField.getText().equals("")) {
-                new Thread(new Counter(secondTextField.getText(), textArea)).start();
+                new Thread(new Counter(secondTextField.getText(), textArea,file)).start();
             }
 
             if (!thirdTextField.getText().equals("")) {
-                new Thread(new Counter(thirdTextField.getText(), textArea)).start();
+                new Thread(new Counter(thirdTextField.getText(), textArea,file)).start();
             }
 
             if (!fourTextField.getText().equals("")) {
-                new Thread(new Counter(fourTextField.getText(), textArea)).start();
+                new Thread(new Counter(fourTextField.getText(), textArea,file)).start();
             }
 
             if (!fifthTextField.getText().equals("")) {
-                new Thread(new Counter(fifthTextField.getText(), textArea)).start();
+                new Thread(new Counter(fifthTextField.getText(), textArea,file)).start();
             }
 
             if (!sixTextField.getText().equals("")) {
-                new Thread(new Counter(sixTextField.getText(), textArea)).start();
+                new Thread(new Counter(sixTextField.getText(), textArea,file)).start();
             }
+
         }
     }
 
@@ -132,6 +151,15 @@ public class Main {
             fourTextField.setText("");
             fifthTextField.setText("");
             sixTextField.setText("");
+        }
+    }
+
+    public class ListenerChooseFile implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent arg0){
+            fileChooser.showOpenDialog(frame);
+            file= fileChooser.getSelectedFile();
+            choosedFileLabel.setText("Plik: "+file.getName());
         }
     }
 

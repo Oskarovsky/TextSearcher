@@ -13,15 +13,16 @@ public class Counter implements Runnable {
     private String word;
     private JTextArea textArea;
     private int count = 0;
+    private File f;
 
-    public Counter(String word, JTextArea textArea) {
+    public Counter(String word, JTextArea textArea, File file) {
         this.word = word;
         this.textArea = textArea;
+        f = file;
     }
 
     @Override
     public void run() {
-        File f = new File("file.txt");
         try {
             Scanner scanner = new Scanner(f);
             while (scanner.hasNext())
