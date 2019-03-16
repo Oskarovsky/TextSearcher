@@ -173,6 +173,7 @@ public class GUI {
             for (int i=0;i<counters.size()&&i<textsList.size();i++){
                 textArea.append("Słowo '" + textsList.get(i) + "' wystąpiło " + counters.get(i) +" razy.\n");
             }
+            textArea.append("___________________________________________________");
 
         }
     }
