@@ -15,6 +15,9 @@ import javax.swing.text.DefaultFormatter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class GUI {
 
@@ -23,6 +26,7 @@ public class GUI {
     public JFrame frame;
     private java.util.List<JTextField> textFields;
     private java.util.List<JLabel> labels;
+    private java.util.List<String> textsList;
 
     private JButton startButton;
     private JButton clearButton;
@@ -37,13 +41,9 @@ public class GUI {
     private JLabel numberLabel;
     private JSpinner spinner;
 
-    private ISearchEngine searchEngine;
-
     private JPanel panel;
 
-    public GUI(ISearchEngine _searchEngine){
-        searchEngine = _searchEngine;
-
+    public GUI(){
         textFields = new ArrayList<JTextField>();
         labels = new ArrayList<JLabel>();
 
@@ -146,6 +146,28 @@ public class GUI {
     private  class StartListener implements  ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
+
+
+            textsList = new ArrayList<String>();
+
+            for (JTextField textField:textFields) {
+                textsList.add(textField.getText());
+            }
+            ExecutorService executor = Executors.newFixedThreadPool(1);
+            Future<List<Integer>> future = executor.submit(new SearchEngine(textsList,file,textsList.size()));
+
+            List<Integer> counters = new ArrayList<Integer>();
+            try{
+                counters = future.get();
+            }
+            catch (InterruptedException | java.util.concurrent.ExecutionException ex)
+            {
+                ex.printStackTrace();
+            }
+
+            for (int i=0;i<counters.size()&&i<textsList.size();i++){
+                textArea.append("Słowo " + textsList.get(i) + " wystąpiło " + counters.get(i) +" razy.\n");
+            }
 
         }
     }
