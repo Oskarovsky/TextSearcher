@@ -27,20 +27,17 @@ public class SearchEngine implements Callable<List<Integer>> {
 
         List<Future<Integer>> futures = new ArrayList<Future<Integer>>();
 
-        for(int i=0;i<texts.size();i++){
+        for (int i=0;i<texts.size();i++) {
             futures.add(executor.submit(new Counter(texts.get(i), file)));
         }
 
         List<Integer> results = new ArrayList<Integer>();
 
         for (Future<Integer> future:futures) {
-
-            try{
+            try {
                 results.add(future.get());
 
-            }
-            catch (InterruptedException | java.util.concurrent.ExecutionException ex)
-            {
+            } catch (InterruptedException | java.util.concurrent.ExecutionException ex) {
                  ex.printStackTrace();
             }
         }
@@ -48,7 +45,7 @@ public class SearchEngine implements Callable<List<Integer>> {
     }
 
     @Override
-    public List<Integer> call(){
+    public List<Integer> call() {
         return search(texts,file,threadsNum);
     }
 }

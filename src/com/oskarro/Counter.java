@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 public class Counter implements Callable<Integer> {
 
     private String word;
+
     private File f;
 
     public Counter(String word, File file) {
@@ -34,7 +35,6 @@ public class Counter implements Callable<Integer> {
             return count;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-
             return -1;
         }
     }

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultFormatter;
 
 
@@ -43,13 +44,13 @@ public class GUI {
 
     private JPanel panel;
 
-    public GUI(){
-        textFields = new ArrayList<JTextField>();
-        labels = new ArrayList<JLabel>();
+    public GUI() {
+        textFields = new ArrayList<>();
+        labels = new ArrayList<>();
 
         frame = new JFrame("Licznik wyrazów");
         fileChooser = new JFileChooser();
-        javax.swing.filechooser.FileNameExtensionFilter filter = new javax.swing.filechooser.FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
         fileChooser.setFileFilter(filter);
         fileChooser.setAcceptAllFileFilterUsed(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,7 +64,7 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    private void panelMaker(int textFieldsNumber){
+    private void panelMaker(int textFieldsNumber) {
         panel = new JPanel();
 
         textFields.clear();
@@ -77,23 +78,21 @@ public class GUI {
             labels.add(label);
         }
 
-        for (int i=0;i<textFields.size() && i<labels.size();i++)
-        {
+        for (int i=0;i<textFields.size() && i<labels.size();i++) {
             panel.add(labels.get(i));
             panel.add(textFields.get(i));
         }
 
-        if(file==null) {
+        if (file==null) {
             choosedFileLabel = new JLabel("     Wybrany Plik: ...");
-        }
-        else{
+        } else {
             choosedFileLabel.setText("      Wybrany Plik: "+file.getName());
         }
-        panel.add(choosedFileLabel);
 
+        panel.add(choosedFileLabel);
     }
 
-    private void textAreaMaker(){
+    private void textAreaMaker() {
         JPanel panel = new JPanel();
         textArea = new JTextArea();
         textArea.setEditable(false);
@@ -102,7 +101,7 @@ public class GUI {
         scrollPane = new JScrollPane(panel);
     }
 
-    private  JPanel buttonsMaker(){
+    private  JPanel buttonsMaker() {
         JPanel panel = new JPanel();
         startButton = new JButton("Start");
         clearButton = new JButton("Wyczyść");
@@ -147,8 +146,9 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent e){
 
-            if(file==null) {
-                JOptionPane.showMessageDialog(frame, "Najpierw wybierz plik!", "Brak pliku", JOptionPane.WARNING_MESSAGE);
+            if (file==null) {
+                JOptionPane.showMessageDialog(frame, "Najpierw wybierz plik!",
+                        "Brak pliku", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -187,15 +187,14 @@ public class GUI {
             for (JTextField textField:textFields) {
                 textsList.add(textField.getText());
             }
+
             ExecutorService executor = Executors.newFixedThreadPool(1);
             Future<List<Integer>> future = executor.submit(new SearchEngine(textsList,file,textsList.size()));
 
             List<Integer> counters = new ArrayList<Integer>();
-            try{
+            try {
                 counters = future.get();
-            }
-            catch (InterruptedException | java.util.concurrent.ExecutionException ex)
-            {
+            } catch (InterruptedException | java.util.concurrent.ExecutionException ex) {
                 ex.printStackTrace();
             }
 
