@@ -3,27 +3,26 @@ package com.oskarro;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 // MULTI THREADING
-public class Counter implements Runnable {
+public class Counter implements Callable<Integer> {
 
     private String word;
-    private JTextArea textArea;
-    private int count = 0;
     private File f;
 
-    public Counter(String word, JTextArea textArea, File file) {
+    public Counter(String word, File file) {
         this.word = word;
-        this.textArea = textArea;
         f = file;
     }
 
     @Override
-    public void run() {
+    public Integer call() {
         try {
+            Integer count =0;
             Scanner scanner = new Scanner(f);
             while (scanner.hasNext())
             {
@@ -31,12 +30,12 @@ public class Counter implements Runnable {
                 if (str.equals(word))
                     count++;
             }
-            SwingUtilities.invokeLater(() -> {
-                textArea.append("Wyraz '" + word + "' wystąpił: " + count + " razy\n");
-            });
             scanner.close();
+            return count;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+
+            return -1;
         }
     }
 
