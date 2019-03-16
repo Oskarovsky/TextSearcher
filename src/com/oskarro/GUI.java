@@ -147,6 +147,11 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent e){
 
+            if(file==null) {
+                JOptionPane.showMessageDialog(frame, "Najpierw wybierz plik!", "Brak pliku", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
 
             textsList = new ArrayList<String>();
 
@@ -166,7 +171,7 @@ public class GUI {
             }
 
             for (int i=0;i<counters.size()&&i<textsList.size();i++){
-                textArea.append("Słowo " + textsList.get(i) + " wystąpiło " + counters.get(i) +" razy.\n");
+                textArea.append("Słowo '" + textsList.get(i) + "' wystąpiło " + counters.get(i) +" razy.\n");
             }
 
         }
