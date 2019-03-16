@@ -152,6 +152,35 @@ public class GUI {
                 return;
             }
 
+            StartSearch startSearch = new StartSearch();
+            Thread t = new Thread(startSearch);
+            t.start();
+        }
+    }
+
+    private class ClearListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            for (JTextField textField:textFields) {
+                textField.setText("");
+            }
+        }
+    }
+
+    private class  ChooseFileListener implements ActionListener{
+        @Override
+        public  void actionPerformed(ActionEvent e){
+            fileChooser.showOpenDialog(frame);
+            file= fileChooser.getSelectedFile();
+            choosedFileLabel.setText("      Wybrany Plik: "+file.getName());
+        }
+    }
+
+    private class StartSearch implements Runnable {
+        @Override
+        public void run(){
+
+            textArea.append("\nWyszukiwanie rozpoczęte . . .\n");
 
             textsList = new ArrayList<String>();
 
@@ -173,26 +202,7 @@ public class GUI {
             for (int i=0;i<counters.size()&&i<textsList.size();i++){
                 textArea.append("Słowo '" + textsList.get(i) + "' wystąpiło " + counters.get(i) +" razy.\n");
             }
-            textArea.append("___________________________________________________");
-
-        }
-    }
-
-    private class ClearListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e){
-            for (JTextField textField:textFields) {
-                textField.setText("");
-            }
-        }
-    }
-
-    private class  ChooseFileListener implements ActionListener{
-        @Override
-        public  void actionPerformed(ActionEvent e){
-            fileChooser.showOpenDialog(frame);
-            file= fileChooser.getSelectedFile();
-            choosedFileLabel.setText("      Wybrany Plik: "+file.getName());
+            textArea.append("___________________________________________________\n");
         }
     }
 
