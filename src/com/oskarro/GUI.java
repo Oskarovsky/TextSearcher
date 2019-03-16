@@ -45,8 +45,8 @@ public class GUI {
     private JPanel panel;
 
     public GUI() {
-        textFields = new ArrayList<JTextField>();
-        labels = new ArrayList<JLabel>();
+        textFields = new ArrayList<>();
+        labels = new ArrayList<>();
 
         frame = new JFrame("Licznik wyrazów");
         fileChooser = new JFileChooser();
