@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class Main {
 
-    public Main() {
+    private Main() {
         GUI gui = new GUI();
     }
 

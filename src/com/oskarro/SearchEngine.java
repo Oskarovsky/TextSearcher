@@ -24,21 +24,17 @@ public class SearchEngine implements Callable<List<Integer>> {
         ExecutorService executor = Executors.newFixedThreadPool(threadsNum);
 
         List<Future<Integer>> futures = new ArrayList<>();
-
-        for (String text : texts) {
-            futures.add(executor.submit(new Counter(text, file)));
-        }
-
         List<Integer> results = new ArrayList<>();
 
-        for (Future<Integer> future:futures) {
+        texts.forEach(text->futures.add(executor.submit(new Counter(text, file))));
+
+        futures.forEach(future-> {
             try {
                 results.add(future.get());
-
             } catch (InterruptedException | java.util.concurrent.ExecutionException ex) {
-                 ex.printStackTrace();
+                ex.printStackTrace();
             }
-        }
+        });
         return results;
     }
 

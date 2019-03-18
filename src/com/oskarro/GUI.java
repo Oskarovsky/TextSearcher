@@ -40,14 +40,16 @@ class GUI {
     private JPanel panel;
 
     GUI() {
+        frame = new JFrame("Licznik wyrazów");
+
         textFields = new ArrayList<>();
         labels = new ArrayList<>();
 
-        frame = new JFrame("Licznik wyrazów");
-        fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
         fileChooser.setAcceptAllFileFilterUsed(false);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.panelMaker(startWordsNumber);
         frame.add(panel,BorderLayout.NORTH);
@@ -66,10 +68,10 @@ class GUI {
         labels.clear();
         panel.setLayout(new GridLayout(textFieldsNumber+1,5));
         
-        for (int i=0;i<textFieldsNumber;i++){
+        for (int i=0; i<textFieldsNumber; i++){
             JTextField textField = new JTextField(10);
             textFields.add(textField);
-            JLabel label = new JLabel("     Podaj słowo numer "+(i+1)+" :");
+            JLabel label = new JLabel("     Podaj słowo numer " + (i+1) + " :");
             labels.add(label);
         }
 
@@ -81,7 +83,7 @@ class GUI {
         if (file==null) {
             chosenFileLabel = new JLabel("     Wybrany Plik: ...");
         } else {
-            chosenFileLabel.setText("      Wybrany Plik: "+file.getName());
+            chosenFileLabel.setText("      Wybrany Plik: " + file.getName());
         }
 
         panel.add(chosenFileLabel);
@@ -98,18 +100,22 @@ class GUI {
 
     private  JPanel buttonsMaker() {
         JPanel panel = new JPanel();
+
         JButton startButton = new JButton("Start");
         JButton clearButton = new JButton("Wyczyść");
         JButton chooseFileButton = new JButton("Wybierz plik");
+        JLabel numberLabel = new JLabel("  Liczba wyrazów:");
+
         panel.add(startButton);
         panel.add(clearButton);
         panel.add(chooseFileButton);
+        panel.add(numberLabel);
+
         startButton.addActionListener(new StartListener());
         clearButton.addActionListener(new ClearListener());
+
         chooseFileButton.addActionListener(new ChooseFileListener());
 
-        JLabel numberLabel = new JLabel("  Liczba wyrazów:");
-        panel.add(numberLabel);
         //add spinner for words number
         JSpinner localSpinner = new JSpinner(new SpinnerNumberModel(startWordsNumber,1,10,1));
         JFormattedTextField tf = ((JSpinner.DefaultEditor) localSpinner.getEditor()).getTextField();

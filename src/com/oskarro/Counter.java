@@ -21,7 +21,7 @@ public class Counter implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            Integer count =0;
+            Integer count = 0;
             Scanner scanner = new Scanner(f);
             while (scanner.hasNext())
             {
