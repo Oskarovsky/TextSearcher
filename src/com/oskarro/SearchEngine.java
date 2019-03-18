@@ -1,8 +1,6 @@
 package com.oskarro;
 
-import javax.swing.*;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -16,10 +14,10 @@ public class SearchEngine implements Callable<List<Integer>> {
     private File file;
     private int threadsNum;
 
-    SearchEngine(List<String> _texts, File _file, int _threadsNum){
-        texts=_texts;
-        file=_file;
-        threadsNum=_threadsNum;
+    SearchEngine(List<String> texts, File file, int threadsNum) {
+        this.texts = texts;
+        this.file = file;
+        this.threadsNum = threadsNum;
     }
 
     private List<Integer> search(List<String> _texts, File _file, int _threadsNum) {

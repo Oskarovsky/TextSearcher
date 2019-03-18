@@ -34,7 +34,7 @@ class GUI {
     //file chooser
     private  JFileChooser fileChooser;
     private  File file;
-    private JLabel choosedFileLabel;
+    private JLabel chosenFileLabel;
     private JSpinner spinner;
 
     private JPanel panel;
@@ -79,12 +79,12 @@ class GUI {
         }
 
         if (file==null) {
-            choosedFileLabel = new JLabel("     Wybrany Plik: ...");
+            chosenFileLabel = new JLabel("     Wybrany Plik: ...");
         } else {
-            choosedFileLabel.setText("      Wybrany Plik: "+file.getName());
+            chosenFileLabel.setText("      Wybrany Plik: "+file.getName());
         }
 
-        panel.add(choosedFileLabel);
+        panel.add(chosenFileLabel);
     }
 
     private void textAreaMaker() {
@@ -167,7 +167,7 @@ class GUI {
         public  void actionPerformed(ActionEvent e){
             fileChooser.showOpenDialog(frame);
             file= fileChooser.getSelectedFile();
-            choosedFileLabel.setText("      Wybrany Plik: "+file.getName());
+            chosenFileLabel.setText("      Wybrany Plik: "+file.getName());
         }
     }
 
