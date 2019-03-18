@@ -20,18 +20,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class GUI {
+class GUI {
 
     private static int startWordsNumber = 8;
 
-    public JFrame frame;
+    private JFrame frame;
     private java.util.List<JTextField> textFields;
     private java.util.List<JLabel> labels;
-    private java.util.List<String> textsList;
 
-    private JButton startButton;
-    private JButton clearButton;
-    private JButton chooseFileButton;
     private JTextArea textArea;
     private JScrollPane scrollPane;
 
@@ -39,12 +35,11 @@ public class GUI {
     private  JFileChooser fileChooser;
     private  File file;
     private JLabel choosedFileLabel;
-    private JLabel numberLabel;
     private JSpinner spinner;
 
     private JPanel panel;
 
-    public GUI() {
+    GUI() {
         textFields = new ArrayList<>();
         labels = new ArrayList<>();
 
@@ -103,9 +98,9 @@ public class GUI {
 
     private  JPanel buttonsMaker() {
         JPanel panel = new JPanel();
-        startButton = new JButton("Start");
-        clearButton = new JButton("Wyczyść");
-        chooseFileButton = new JButton("Wybierz plik");
+        JButton startButton = new JButton("Start");
+        JButton clearButton = new JButton("Wyczyść");
+        JButton chooseFileButton = new JButton("Wybierz plik");
         panel.add(startButton);
         panel.add(clearButton);
         panel.add(chooseFileButton);
@@ -113,7 +108,7 @@ public class GUI {
         clearButton.addActionListener(new ClearListener());
         chooseFileButton.addActionListener(new ChooseFileListener());
 
-        numberLabel = new JLabel("  Liczba wyrazów:");
+        JLabel numberLabel = new JLabel("  Liczba wyrazów:");
         panel.add(numberLabel);
         //add spinner for words number
         JSpinner localSpinner = new JSpinner(new SpinnerNumberModel(startWordsNumber,1,10,1));
@@ -182,23 +177,23 @@ public class GUI {
 
             textArea.append("\nWyszukiwanie rozpoczęte . . .\n");
 
-            textsList = new ArrayList<String>();
+            List<String> textsList = new ArrayList<>();
 
             for (JTextField textField:textFields) {
                 textsList.add(textField.getText());
             }
 
             ExecutorService executor = Executors.newFixedThreadPool(1);
-            Future<List<Integer>> future = executor.submit(new SearchEngine(textsList,file,textsList.size()));
+            Future<List<Integer>> future = executor.submit(new SearchEngine(textsList,file, textsList.size()));
 
-            List<Integer> counters = new ArrayList<Integer>();
+            List<Integer> counters = new ArrayList<>();
             try {
                 counters = future.get();
             } catch (InterruptedException | java.util.concurrent.ExecutionException ex) {
                 ex.printStackTrace();
             }
 
-            for (int i=0;i<counters.size()&&i<textsList.size();i++){
+            for (int i = 0; i<counters.size()&&i< textsList.size(); i++){
                 textArea.append("Słowo '" + textsList.get(i) + "' wystąpiło " + counters.get(i) +" razy.\n");
             }
             textArea.append("___________________________________________________\n");

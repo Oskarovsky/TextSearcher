@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 // MULTI THREADING
 public class Counter implements Callable<Integer> {
@@ -15,7 +13,7 @@ public class Counter implements Callable<Integer> {
 
     private File f;
 
-    public Counter(String word, File file) {
+    Counter(String word, File file) {
         this.word = word;
         f = file;
     }

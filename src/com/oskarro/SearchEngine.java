@@ -16,7 +16,7 @@ public class SearchEngine implements Callable<List<Integer>> {
     private File file;
     private int threadsNum;
 
-    public SearchEngine(List<String> _texts, File _file, int _threadsNum){
+    SearchEngine(List<String> _texts, File _file, int _threadsNum){
         texts=_texts;
         file=_file;
         threadsNum=_threadsNum;
@@ -25,13 +25,13 @@ public class SearchEngine implements Callable<List<Integer>> {
     private List<Integer> search(List<String> _texts, File _file, int _threadsNum) {
         ExecutorService executor = Executors.newFixedThreadPool(threadsNum);
 
-        List<Future<Integer>> futures = new ArrayList<Future<Integer>>();
+        List<Future<Integer>> futures = new ArrayList<>();
 
-        for (int i=0;i<texts.size();i++) {
-            futures.add(executor.submit(new Counter(texts.get(i), file)));
+        for (String text : texts) {
+            futures.add(executor.submit(new Counter(text, file)));
         }
 
-        List<Integer> results = new ArrayList<Integer>();
+        List<Integer> results = new ArrayList<>();
 
         for (Future<Integer> future:futures) {
             try {
