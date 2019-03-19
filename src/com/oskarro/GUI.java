@@ -67,7 +67,7 @@ class GUI {
         textFields.clear();
         labels.clear();
         panel.setLayout(new GridLayout(textFieldsNumber+1,5));
-        
+
         for (int i=0; i<textFieldsNumber; i++){
             JTextField textField = new JTextField(10);
             textFields.add(textField);
@@ -171,9 +171,13 @@ class GUI {
     private class  ChooseFileListener implements ActionListener{
         @Override
         public  void actionPerformed(ActionEvent e){
-            fileChooser.showOpenDialog(frame);
-            file= fileChooser.getSelectedFile();
-            chosenFileLabel.setText("      Wybrany Plik: "+file.getName());
+            try {
+                fileChooser.showOpenDialog(frame);
+                file = fileChooser.getSelectedFile();
+                chosenFileLabel.setText("      Wybrany Plik: " + file.getName());
+            } catch (NullPointerException ex) {
+                chosenFileLabel.setText("      Nie wybrano pliku!");
+            }
         }
     }
 
