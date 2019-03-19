@@ -176,7 +176,7 @@ class GUI {
                 file = fileChooser.getSelectedFile();
                 chosenFileLabel.setText("      Wybrany Plik: " + file.getName());
             } catch (NullPointerException ex) {
-                chosenFileLabel.setText("      Nie wybrano pliku!");
+                chosenFileLabel.setText("     Wybrany Plik: ...");
             }
         }
     }
