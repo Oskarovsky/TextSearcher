@@ -10,19 +10,18 @@ import java.util.concurrent.Callable;
 public class Counter implements Callable<Integer> {
 
     private String word;
-
-    private File f;
+    private File file;
 
     Counter(String word, File file) {
         this.word = word;
-        f = file;
+        this.file = file;
     }
 
     @Override
     public Integer call() {
         try {
             Integer count = 0;
-            Scanner scanner = new Scanner(f);
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNext())
             {
                 String str = scanner.next();
